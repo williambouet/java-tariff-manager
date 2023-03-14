@@ -1,22 +1,33 @@
 package dev.wcs.nad.tariffmanager.adapter.rest;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
 import dev.wcs.nad.tariffmanager.adapter.rest.dto.customer.AddressDto;
 import dev.wcs.nad.tariffmanager.adapter.rest.dto.customer.CreateCustomerDto;
 import dev.wcs.nad.tariffmanager.adapter.rest.dto.customer.CustomerDto;
 import dev.wcs.nad.tariffmanager.mapper.mapstruct.EntityToDtoMapper;
+import dev.wcs.nad.tariffmanager.mapper.simple.CustomerMapper;
 import dev.wcs.nad.tariffmanager.persistence.entity.Customer;
 import dev.wcs.nad.tariffmanager.service.CustomerService;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @RestController
-public class CustomerController {
+public class CustomerController extends CustomerMapper{
 
     private final CustomerService customerService;
     private final EntityToDtoMapper entityToDtoMapper;
+    
+    @Autowired
+    private CustomerMapper customerMapper;
 
     public CustomerController(CustomerService customerService, EntityToDtoMapper entityToDtoMapper) {
         this.customerService = customerService;
