@@ -22,7 +22,11 @@ public class TariffDepartmentTest {
     @Test
     public void tariffDepartmentTest() {
         Tariff tariff = new Tariff();
+        tariff.setId(1L);
+        tariff.setName("tariff");
         Department department = new Department();
+        department.setId(1L);
+        department.setName("dpt");
 
         tariff.setDepartment(department);
         assertThat(tariff.getDepartment()).isEqualTo(department);
