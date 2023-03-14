@@ -17,6 +17,7 @@ public class CustomerLegacyDao {
 
     private final DataSource dataSource;
 
+
     // DataSource is configured by Spring in application.properties and injected during Context setup.
     public CustomerLegacyDao(DataSource dataSource) {
         this.dataSource = dataSource;
