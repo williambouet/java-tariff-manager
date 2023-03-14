@@ -16,6 +16,9 @@ import java.util.Optional;
 public class CustomerLegacyDao {
 
     private final DataSource dataSource;
+    private final static String DB_URL = "jdbc:h2:./data/tariff";
+    private final static String DB_USER = "sa";
+    private final static String DB_PASSWORD = "";
 
     // DataSource is configured by Spring in application.properties and injected during Context setup.
     public CustomerLegacyDao(DataSource dataSource) {
@@ -27,7 +30,7 @@ public class CustomerLegacyDao {
         Create the connection object
         The getConnection() method of DataSource, which is configured by Spring with the configuration of application.properties, is used to establish connection with the database.
         */
-
+        Connection connection = dataSource.getConnection();
         // We use try-catch-finally introduced in Java 7
         try (Connection connection = dataSource.getConnection();
             /*
