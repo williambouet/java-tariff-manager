@@ -51,7 +51,9 @@ public Optional<Customer> getByIdJava7Syntax(int id) {
         try (Connection connection = dataSource.getConnection();
              // NOTE
              // For security reasons: Always use PreparedStatements, not Statement
-             PreparedStatement stmt = connection.prepareStatement("my_call");
+             PreparedStatement stmt = connection.prepareStatement(
+                "SELECT * FROM customer WHERE id = ?");
+                
              ResultSet resultSet = stmt.executeQuery()) {
             while (resultSet.next()) {
                 String value = resultSet.getString(1);
