@@ -41,8 +41,20 @@ public class CustomerController {
     }
 
     @PutMapping("/api/customers/{id}")
-    public ResponseEntity<CustomerDto> assignAddress(@PathVariable("id") Long customerId, @RequestBody AddressDto addressDto) {
-        Customer customerEntity = customerService.assignAddress(customerId, entityToDtoMapper.mapAddressDto(addressDto));
+    public ResponseEntity<CustomerDto> assignAddress(@PathVariable("id") Long customerId,
+            @RequestBody AddressDto addressDto) {
+        Customer customerEntity = customerService.assignAddress(customerId,
+                entityToDtoMapper.mapAddressDto(addressDto));
         return ResponseEntity.ok(entityToDtoMapper.customerToCustomerDto(customerEntity));
+    }
+    
+    @GetMapping("/api/customersOfLegalAge")
+    public List<CustomerDto> displayCustomersOfLegalAgeWithLastnameFilter(@RequestParam(value = "lastname", required = false) String lastname) {
+        List<CustomerDto> customerDtos = new ArrayList<>();
+        Iterable<Customer> relevantCustomers = StringUtils.hasText(lastname) ? customerService.filterOfLegalAgeAndLastname(lastname) : customerService.filterOfLegalAgeAndName();
+        for (Customer customer: relevantCustomers) {
+            customerDtos.add(entityToDtoMapper.customerToCustomerDto(customer));
+        }
+        return customerDtos;
     }
 }

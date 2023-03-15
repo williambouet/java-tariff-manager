@@ -13,5 +13,4 @@ public interface CustomerRepository extends CrudRepository<Customer, Long> {
 
     Iterable<Customer> findAllByBirthdateIsBeforeAndLastnameContainingIgnoreCase(LocalDate maturityDate, String lastname);
 
-
 }
