@@ -21,7 +21,7 @@ import dev.wcs.nad.tariffmanager.persistence.entity.Customer;
 import dev.wcs.nad.tariffmanager.service.CustomerService;
 
 @RestController
-public class CustomerController extends CustomerMapper{
+public class CustomerController {
 
     private final CustomerService customerService;
     private final EntityToDtoMapper entityToDtoMapper;
@@ -38,20 +38,20 @@ public class CustomerController extends CustomerMapper{
     public List<CustomerDto> displayCustomers() {
         List<CustomerDto> customerDtos = new ArrayList<>();
         for (Customer customer: customerService.readAllCustomers()) {
-            customerDtos.add(entityToDtoMapper.customerToCustomerDto(customer));
+            customerDtos.add(customerMapper.convertEntityToDto(customer));
         }
         return customerDtos;
     }
 
     @PostMapping("/api/customers")
     public ResponseEntity<CustomerDto> createCustomer(@RequestBody CreateCustomerDto createCustomerDto) {
-        CustomerDto customerDto = entityToDtoMapper.customerToCustomerDto(customerService.createCustomer(entityToDtoMapper.createCustomerDtoToCustomer(createCustomerDto)));
+        CustomerDto customerDto = customerMapper.convertEntityToDto(customerService.createCustomer(entityToDtoMapper.createCustomerDtoToCustomer(createCustomerDto)));
         return ResponseEntity.ok(customerDto);
     }
 
     @PutMapping("/api/customers/{id}")
     public ResponseEntity<CustomerDto> assignAddress(@PathVariable("id") Long customerId, @RequestBody AddressDto addressDto) {
         Customer customerEntity = customerService.assignAddress(customerId, entityToDtoMapper.mapAddressDto(addressDto));
-        return ResponseEntity.ok(entityToDtoMapper.customerToCustomerDto(customerEntity));
+        return ResponseEntity.ok(customerMapper.convertEntityToDto(customerEntity));
     }
 }
