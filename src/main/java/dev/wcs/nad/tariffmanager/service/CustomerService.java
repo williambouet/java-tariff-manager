@@ -21,13 +21,18 @@ public class CustomerService {
     private final AddressRepository addressRepository;
     private final ContactRepository contactRepository;
     // Challenge: Make legalAge configurable
-    private final int legalAge = 18;
+    private final int maturityAge;
 
-    public CustomerService(CustomerRepository customerRepository, AddressRepository addressRepository,
+    public CustomerService(
+            @Value("${maturity.age}") int maturityAge,
+            CustomerRepository customerRepository,
+            AddressRepository addressRepository,
             ContactRepository contactRepository) {
-        this.customerRepository = customerRepository;
+
+        this.maturityAge = maturityAge;
         this.addressRepository = addressRepository;
         this.contactRepository = contactRepository;
+        this.customerRepository = customerRepository;
     }
 
     public Iterable<Customer> readAllCustomers() {
@@ -71,7 +76,7 @@ public class CustomerService {
     // here.
     public Iterable<Customer> filterOfLegalAgeAndLastname(String lastname) {
         return customerRepository
-                .findAllByBirthdateIsBeforeAndLastnameContainingIgnoreCase(LocalDate.now().minusYears(18), lastname);
+                .findAllByBirthdateIsBeforeAndLastnameContainingIgnoreCase(LocalDate.now().minusYears(maturityAge), lastname);
     }
     
 
@@ -80,7 +85,7 @@ public class CustomerService {
     // further filter the stream for all customers aged >= 18 and name startsWith
     // searchFilter.
     public Iterable<Customer> filterOfLegalAgeAndName() {
-        return customerRepository.findAllByBirthdateIsBefore(LocalDate.now().minusYears(18));
+        return customerRepository.findAllByBirthdateIsBefore(LocalDate.now().minusYears(maturityAge));
     }
 
     // Pass the parameter searchFilter "down" further the layers to optimize
