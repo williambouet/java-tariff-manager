@@ -10,6 +10,13 @@
         Logged user: <b><span sec:authentication="name"></span></b><br/>
         Assigned Roles: <b><span sec:authentication="principal.authorities"></span></b>
     </div>
+
+    <div th:each="user: ${users}">
+        <div>
+            <p th:text="${user.id}" ></p> <p th:text="${user.username}" ></p>
+        </div>
+    </div>
+
     <br/>
     <a th:href="@{/public/index}">Back</a>
 </section>

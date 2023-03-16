@@ -34,8 +34,11 @@ public class WebSecurityConfig {
         http.authorizeHttpRequests()
             .requestMatchers("/public/*.html").denyAll()
                 // add authentication & authorization for admin, backoffice and user settings here
+                .requestMatchers("/public/customer/**").hasAuthority("ROLE_BACKOFFICE")
+                .requestMatchers("/public/admin/**").hasAuthority("ROLE_ADMIN")
+
             .requestMatchers("/public/**", "/", "/webjars/**", "/api/**", "/v3/**", "/swagger-ui/**", "/swagger-ui.html", "/h2-console/**")
-            .permitAll()
+            .authenticated()
             .anyRequest()
             .authenticated()
         .and()
