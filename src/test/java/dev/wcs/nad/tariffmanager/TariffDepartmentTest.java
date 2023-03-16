@@ -24,10 +24,13 @@ public class TariffDepartmentTest {
         Tariff tariff = new Tariff();
         tariff.setId(1L);
         tariff.setName("tariff");
+        tariffRepository.save(tariff);
+
         Department department = new Department();
         department.setId(1L);
         department.setName("dpt");
-
+        departmentRepository.save(department);
+        
         tariff.setDepartment(department);
         assertThat(tariff.getDepartment()).isEqualTo(department);
     }
