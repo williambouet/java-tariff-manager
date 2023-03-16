@@ -52,8 +52,10 @@ public class CustomerController {
     }
 
     @PutMapping("/api/customers/{id}")
-    public ResponseEntity<CustomerDto> assignAddress(@PathVariable("id") Long customerId, @RequestBody AddressDto addressDto) {
-        Customer customerEntity = customerService.assignAddress(customerId, entityToDtoMapper.mapAddressDto(addressDto));
+    public ResponseEntity<CustomerDto> assignAddress(@PathVariable("id") Long customerId,
+            @RequestBody AddressDto addressDto) {
+        Customer customerEntity = customerService.assignAddress(customerId,
+                entityToDtoMapper.mapAddressDto(addressDto));
         return ResponseEntity.ok(entityToDtoMapper.customerToCustomerDto(customerEntity));
     }
 }

@@ -19,7 +19,7 @@ import java.util.List;
 public class ContractView {
 
     private final ContractService contractService;
-    private final EntityToDtoMapper entityToDtoMapper; //customerContractsListView
+    private final EntityToDtoMapper entityToDtoMapper; // customerContractsListView
 
     public ContractView(ContractService contractService, EntityToDtoMapper entityToDtoMapper) {
         this.contractService = contractService;
@@ -30,13 +30,19 @@ public class ContractView {
     public String viewContractsOfCustomer(Model model, @PathVariable Long custId) {
         model.addAttribute("now", new Date().toInstant());
 
-        List<ContractInfoDto> contractInfoDtos = new ArrayList<>();
         // Challenge:
         // 1. Read Contracts for User from Service
         // 2. Map Contract objects to ContractInfoDto objects and add to List
         // 3. Redirect to a new page "customerContractsListView"
 
-        return null;
-    }
+        List<ContractInfoDto> contractInfoDtos = new ArrayList<>();
+        if (custId >= 0) {// todo : better to test if contract exist
+            contractInfoDtos.addAll(
+                    entityToDtoMapper.contractsToContractInfosDto(contractService.readContractsForUser(custId)));
 
+            model.addAttribute("contracts", contractInfoDtos);
+        }
+
+        return "customerContractsListView";
+    }
 }
